@@ -15,11 +15,14 @@ echo "[2/8] Installing dependencies (rclone, ssh, curl)..."
 sudo apt install -y rclone openssh-server curl gnupg apt-transport-https software-properties-common
 
 # --- 3. Install Jellyfin ---
-echo "[3/8] Installing Jellyfin..."
-wget -O- https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/jellyfin.gpg
-echo "deb [signed-by=/usr/share/keyrings/jellyfin.gpg arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/jellyfin.list
-sudo apt update
-sudo apt install -y jellyfin
+# echo "[3/8] Installing Jellyfin..."
+# # wget -O- https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/jellyfin.gpg
+# curl https://repo.jellyfin.org/install-debuntu.sh | sudo bash
+# less install-debuntu.sh
+# sudo bash install-debuntu.sh
+# echo "deb [signed-by=/usr/share/keyrings/jellyfin.gpg arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/jellyfin.list
+# sudo apt update
+# sudo apt install -y jellyfin
 
 # --- 4. Configure rclone remote ---
 echo "[4/8] Configuring rclone remote for Seedbox..."
