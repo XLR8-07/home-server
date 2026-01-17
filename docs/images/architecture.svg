@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d3748"/>
+      <stop offset="100%" style="stop-color:#1a202c"/>
+    </linearGradient>
+    <linearGradient id="jellyfinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00a4dc"/>
+      <stop offset="100%" style="stop-color:#0078a8"/>
+    </linearGradient>
+    <linearGradient id="prometheusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e6522c"/>
+      <stop offset="100%" style="stop-color:#b8421f"/>
+    </linearGradient>
+    <linearGradient id="grafanaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f46800"/>
+      <stop offset="100%" style="stop-color:#c45400"/>
+    </linearGradient>
+    <linearGradient id="wireguardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#88171a"/>
+      <stop offset="100%" style="stop-color:#5c0f11"/>
+    </linearGradient>
+    <linearGradient id="lokiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f7d14c"/>
+      <stop offset="100%" style="stop-color:#d4a73a"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="600" fill="url(#bgGrad)"/>
+  
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="bold">🏠 Home Server Architecture</text>
+  
+  <!-- Internet Cloud -->
+  <ellipse cx="450" cy="100" rx="120" ry="35" fill="#4a5568" filter="url(#shadow)"/>
+  <text x="450" y="105" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="14" font-weight="600">🌐 Internet</text>
+  
+  <!-- Arrow from Internet -->
+  <path d="M450 135 L450 165" stroke="#718096" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#718096"/>
+    </marker>
+  </defs>
+  
+  <!-- Router -->
+  <rect x="375" y="170" width="150" height="50" rx="8" fill="url(#cardGrad)" filter="url(#shadow)"/>
+  <text x="450" y="200" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="13" font-weight="600">📡 Router :51820</text>
+  
+  <!-- Arrow to Server -->
+  <path d="M450 220 L450 260" stroke="#718096" stroke-width="3"/>
+  
+  <!-- Main Server Box -->
+  <rect x="50" y="265" width="800" height="250" rx="12" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#4a5568" stroke-width="2"/>
+  <text x="450" y="295" text-anchor="middle" fill="#a0aec0" font-family="system-ui, sans-serif" font-size="12">HOME SERVER</text>
+  
+  <!-- Service Cards -->
+  <!-- Jellyfin -->
+  <rect x="80" y="315" width="150" height="80" rx="8" fill="url(#jellyfinGrad)" filter="url(#shadow)"/>
+  <text x="155" y="350" text-anchor="middle" fill="white" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">🎬 Jellyfin</text>
+  <text x="155" y="375" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12">:8096</text>
+  
+  <!-- Prometheus -->
+  <rect x="260" y="315" width="150" height="80" rx="8" fill="url(#prometheusGrad)" filter="url(#shadow)"/>
+  <text x="335" y="350" text-anchor="middle" fill="white" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">📊 Prometheus</text>
+  <text x="335" y="375" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12">:9090</text>
+  
+  <!-- Grafana -->
+  <rect x="440" y="315" width="150" height="80" rx="8" fill="url(#grafanaGrad)" filter="url(#shadow)"/>
+  <text x="515" y="350" text-anchor="middle" fill="white" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">📈 Grafana</text>
+  <text x="515" y="375" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12">:3000</text>
+  
+  <!-- WireGuard -->
+  <rect x="620" y="315" width="150" height="80" rx="8" fill="url(#wireguardGrad)" filter="url(#shadow)"/>
+  <text x="695" y="350" text-anchor="middle" fill="white" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">🔐 WireGuard</text>
+  <text x="695" y="375" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12">:51820</text>
+  
+  <!-- Bottom Row -->
+  <!-- Loki -->
+  <rect x="170" y="420" width="140" height="70" rx="8" fill="url(#lokiGrad)" filter="url(#shadow)"/>
+  <text x="240" y="455" text-anchor="middle" fill="#1a202c" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">📝 Loki</text>
+  <text x="240" y="475" text-anchor="middle" fill="#2d3748" font-family="system-ui, sans-serif" font-size="11">:3100</text>
+  
+  <!-- Node Exporter -->
+  <rect x="340" y="420" width="140" height="70" rx="8" fill="#48bb78" filter="url(#shadow)"/>
+  <text x="410" y="455" text-anchor="middle" fill="white" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">💻 Node Export</text>
+  <text x="410" y="475" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="11">:9100</text>
+  
+  <!-- rclone -->
+  <rect x="510" y="420" width="140" height="70" rx="8" fill="#667eea" filter="url(#shadow)"/>
+  <text x="580" y="455" text-anchor="middle" fill="white" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">☁️ rclone</text>
+  <text x="580" y="475" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="11">/mnt/seedbox</text>
+  
+  <!-- Seedbox -->
+  <rect x="375" y="545" width="150" height="45" rx="8" fill="#805ad5" filter="url(#shadow)"/>
+  <text x="450" y="573" text-anchor="middle" fill="white" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">📦 Seedbox (SFTP)</text>
+  
+  <!-- Arrow to Seedbox -->
+  <path d="M580 490 L580 520 L450 520 L450 545" stroke="#805ad5" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+  
+  <!-- Connection lines between services -->
+  <path d="M335 395 L335 420" stroke="#718096" stroke-width="1.5"/>
+  <path d="M515 395 L410 420" stroke="#718096" stroke-width="1.5"/>
+  <path d="M240 420 L335 395" stroke="#718096" stroke-width="1.5" stroke-dasharray="3,3"/>
+</svg>
