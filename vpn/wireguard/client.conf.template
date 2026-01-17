@@ -1,0 +1,43 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  WireGuard Client Configuration Template                      ║
+# ╚══════════════════════════════════════════════════════════════╝
+#
+# This is a template file. Actual client configs are generated
+# by the setup script and saved in vpn/clients/
+#
+# VARIABLES:
+#   ${CLIENT_PRIVATE_KEY} - Client's private key
+#   ${CLIENT_IP}          - Client's VPN IP address
+#   ${SERVER_PUBLIC_KEY}  - Server's public key
+#   ${SERVER_ENDPOINT}    - Server's public IP/domain:port
+#   ${VPN_SUBNET}         - VPN subnet
+#   ${HOME_SUBNET}        - Home network subnet (optional)
+#
+
+[Interface]
+# Client private key (NEVER share this)
+PrivateKey = ${CLIENT_PRIVATE_KEY}
+
+# Client VPN IP address
+Address = ${CLIENT_IP}
+
+# DNS servers (used when VPN is active)
+# Options: 1.1.1.1 (Cloudflare), 8.8.8.8 (Google), or your home DNS
+DNS = 1.1.1.1, 8.8.8.8
+
+[Peer]
+# Server public key
+PublicKey = ${SERVER_PUBLIC_KEY}
+
+# Server endpoint (public IP or domain)
+Endpoint = ${SERVER_ENDPOINT}
+
+# Routes through VPN
+# Option 1: Only home network (split tunnel - recommended)
+AllowedIPs = ${VPN_SUBNET}.0/24, ${HOME_SUBNET}
+
+# Option 2: All traffic through VPN (full tunnel)
+# AllowedIPs = 0.0.0.0/0, ::/0
+
+# Keep connection alive (important for mobile/NAT)
+PersistentKeepalive = 25
