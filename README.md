@@ -2,10 +2,10 @@
   <img src="https://raw.githubusercontent.com/selfhst/icons/main/svg/jellyfin.svg" width="80" alt="Home Server">
 </p>
 
-<h1 align="center">🏠 Home Server</h1>
+<h1 align="center">Home Server</h1>
 
 <p align="center">
-  <strong>A comprehensive, cross-platform home media server with monitoring, metrics, and secure remote access</strong>
+  <strong>A cross-platform home media server with monitoring, metrics, and secure remote access</strong>
 </p>
 
 <p align="center">
@@ -25,45 +25,45 @@
 
 ---
 
-## ✨ Features
+## Features
 
 <table>
 <tr>
 <td width="50%">
 
-### 🎬 Media Server
-- **Jellyfin** - Free, open-source media streaming
-- **rclone** - Mount remote seedbox via SFTP
-- **Persistent mounts** - Auto-reconnect on boot
-- **Hardware transcoding** - GPU acceleration support
+### Media Server
+- **Jellyfin** — Free, open-source media streaming
+- **rclone** — Mount remote seedbox via SFTP
+- **Persistent mounts** — Auto-reconnect on boot
+- **Hardware transcoding** — GPU acceleration support
 
 </td>
 <td width="50%">
 
-### 📊 Monitoring & Metrics
-- **Prometheus** - Time-series metrics collection
-- **Grafana** - Beautiful dashboards & visualization
-- **Loki** - Centralized log aggregation
-- **Alertmanager** - Smart alert routing
+### Monitoring & Metrics
+- **Prometheus** — Time-series metrics collection
+- **Grafana** — Beautiful dashboards & visualization
+- **Loki** — Centralized log aggregation
+- **Alertmanager** — Smart alert routing
 
 </td>
 </tr>
 <tr>
 <td width="50%">
 
-### 🔐 Secure Remote Access
-- **WireGuard VPN** - Fast, modern VPN protocol
-- **QR Code generation** - Easy mobile setup
-- **Split tunneling** - Route only home traffic
-- **Multi-client support** - Connect all your devices
+### Secure Remote Access
+- **WireGuard VPN** — Fast, modern VPN protocol
+- **QR Code generation** — Easy mobile setup
+- **Split tunneling** — Route only home traffic
+- **Multi-client support** — Connect all your devices
 
 </td>
 <td width="50%">
 
-### 🖥️ Cross-Platform
-- **Linux** - Ubuntu, Debian, Fedora, Arch
-- **macOS** - Intel & Apple Silicon
-- **Automated setup** - Interactive installer
+### Cross-Platform
+- **Linux** — Ubuntu, Debian, Fedora, Arch
+- **macOS** — Intel & Apple Silicon
+- **Automated setup** — Interactive installer
 - **Platform-specific optimizations**
 
 </td>
@@ -72,7 +72,7 @@
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 <p align="center">
   <img src="https://img.shields.io/badge/Jellyfin-00A4DC?style=for-the-badge&logo=jellyfin&logoColor=white" alt="Jellyfin">
@@ -89,10 +89,10 @@
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 <details>
-<summary><b>🖥️ Interactive Installer</b></summary>
+<summary><b>Interactive Installer</b></summary>
 <br>
 <p align="center">
   <img src="docs/images/installer-preview.svg" alt="Installer Preview" width="700">
@@ -100,7 +100,7 @@
 </details>
 
 <details>
-<summary><b>📊 Grafana Dashboard</b></summary>
+<summary><b>Grafana Dashboard</b></summary>
 <br>
 <p align="center">
   <img src="docs/images/grafana-dashboard.svg" alt="Grafana Dashboard" width="900">
@@ -108,7 +108,7 @@
 </details>
 
 <details>
-<summary><b>🔐 VPN Architecture</b></summary>
+<summary><b>VPN Architecture</b></summary>
 <br>
 <p align="center">
   <img src="docs/images/vpn-diagram.svg" alt="VPN Diagram" width="800">
@@ -117,14 +117,14 @@
 
 ---
 
-## 📐 Architecture
+## Architecture
 
 <p align="center">
   <img src="docs/images/architecture.svg" alt="Architecture Diagram" width="800">
 </p>
 
 <details>
-<summary><b>📝 Text Version</b></summary>
+<summary><b>Text Diagram</b></summary>
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -162,7 +162,7 @@
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -185,75 +185,57 @@ chmod +x install.sh
 ./install.sh
 ```
 
-### Quick Install Options
+### Install Options
 
 ```bash
-# Full setup (Jellyfin + Seedbox + Monitoring + VPN)
-./install.sh --full
-
-# Media server only
-./install.sh --media
-
-# Monitoring stack only
-./install.sh --monitoring
-
-# VPN setup only
-./install.sh --vpn
-
-# Health check
-./install.sh --health
+./install.sh --full        # Full setup (Jellyfin + Seedbox + Monitoring + VPN)
+./install.sh --media       # Media server only
+./install.sh --monitoring  # Monitoring stack only
+./install.sh --vpn         # VPN setup only
+./install.sh --health      # System health check
 ```
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 home-server/
-├── 📄 install.sh                    # Main interactive installer
-├── 📄 README.md                     # This file
+├── install.sh                       # Main interactive installer
+├── README.md
 │
-├── 📂 scripts/
-│   ├── 📂 common/                   # Shared utilities
-│   │   ├── colors.sh               # Terminal colors
-│   │   ├── utils.sh                # Helper functions
-│   │   ├── health.sh               # Health check
-│   │   └── monitoring.sh           # Monitoring deployment
+├── scripts/
+│   ├── common/                      # Shared utilities
+│   │   ├── colors.sh                # Terminal colors
+│   │   ├── utils.sh                 # Helper functions
+│   │   ├── health.sh                # Health check
+│   │   └── monitoring.sh            # Monitoring deployment
 │   │
-│   ├── 📂 linux/                    # Linux-specific scripts
-│   │   ├── setup.sh                # Main Linux setup
-│   │   ├── rclone.sh               # rclone configuration
-│   │   └── vpn.sh                  # WireGuard setup
+│   ├── linux/                       # Linux-specific scripts
+│   │   ├── setup.sh
+│   │   ├── rclone.sh
+│   │   └── vpn.sh
 │   │
-│   └── 📂 macos/                    # macOS-specific scripts
-│       ├── setup.sh                # Main macOS setup
-│       ├── rclone.sh               # rclone with LaunchAgent
-│       └── vpn.sh                  # WireGuard (client/server)
+│   └── macos/                       # macOS-specific scripts
+│       ├── setup.sh
+│       ├── rclone.sh
+│       └── vpn.sh
 │
-├── 📂 monitoring/                   # Docker-based monitoring
-│   ├── docker-compose.yml          # Full monitoring stack
-│   ├── 📂 prometheus/
-│   │   ├── prometheus.yml          # Prometheus config
-│   │   ├── alerts.yml              # Alert rules
-│   │   └── alertmanager.yml        # Alert routing
-│   ├── 📂 grafana/
-│   │   ├── 📂 provisioning/        # Auto-provisioning
-│   │   └── 📂 dashboards/          # Pre-built dashboards
-│   ├── 📂 loki/
-│   │   └── loki-config.yml         # Log aggregation config
-│   └── 📂 promtail/
-│       └── promtail-config.yml     # Log collection config
+├── monitoring/                      # Docker-based monitoring stack
+│   ├── docker-compose.yml
+│   ├── prometheus/
+│   ├── grafana/
+│   ├── loki/
+│   └── promtail/
 │
-├── 📂 vpn/
-│   ├── 📂 wireguard/               # Configuration templates
-│   │   ├── server.conf.template
-│   │   └── client.conf.template
-│   └── 📂 clients/                 # Generated client configs
+├── vpn/
+│   ├── wireguard/                   # Configuration templates
+│   └── clients/                     # Generated client configs
 │
-├── 📂 config/
-│   └── .env.example                # Environment template
+├── config/
+│   └── .env.example
 │
-└── 📂 docs/                         # Additional documentation
+└── docs/
     ├── LINUX.md
     ├── MACOS.md
     └── VPN.md
@@ -261,9 +243,9 @@ home-server/
 
 ---
 
-## 📊 Monitoring Dashboards
+## Monitoring
 
-The monitoring stack includes pre-configured Grafana dashboards for:
+The monitoring stack includes pre-configured Grafana dashboards:
 
 | Dashboard | Metrics |
 |-----------|---------|
@@ -272,27 +254,26 @@ The monitoring stack includes pre-configured Grafana dashboards for:
 | **Logs Explorer** | Centralized logs from all services |
 | **Alerts** | Active and historical alerts |
 
-### Accessing Dashboards
+### Service URLs
 
 | Service | URL | Default Credentials |
 |---------|-----|---------------------|
 | **Grafana** | `http://<server-ip>:3000` | admin / admin |
-| **Prometheus** | `http://<server-ip>:9090` | - |
-| **Alertmanager** | `http://<server-ip>:9093` | - |
+| **Prometheus** | `http://<server-ip>:9090` | — |
+| **Alertmanager** | `http://<server-ip>:9093` | — |
 | **Jellyfin** | `http://<server-ip>:8096` | Setup on first access |
 
 ---
 
-## 🔐 VPN Remote Access
+## VPN Remote Access
 
 WireGuard provides secure, high-performance VPN access to your home server from anywhere.
 
-### Features
-
-- ⚡ **Fast** - WireGuard is significantly faster than OpenVPN
-- 🔒 **Secure** - Modern cryptography (Curve25519, ChaCha20, Poly1305)
-- 📱 **Mobile Ready** - QR codes for easy phone setup
-- 🔀 **Split Tunnel** - Route only home network traffic through VPN
+**Key Features:**
+- Fast — significantly faster than OpenVPN
+- Secure — modern cryptography (Curve25519, ChaCha20, Poly1305)
+- Mobile Ready — QR codes for easy phone setup
+- Split Tunnel — route only home network traffic through VPN
 
 ### Client Setup
 
@@ -313,19 +294,9 @@ WireGuard provides secure, high-performance VPN access to your home server from 
 
 ---
 
-## 📈 Metrics & Alerts
+## Alerts
 
-### Collected Metrics
-
-| Category | Metrics |
-|----------|---------|
-| **System** | CPU usage, Memory, Load average, Uptime |
-| **Disk** | Usage per mount, I/O rates, Inodes |
-| **Network** | Bandwidth, Connections, Errors |
-| **Containers** | CPU, Memory, Network per container |
-| **Services** | Jellyfin status, rclone mount status |
-
-### Default Alerts
+### Default Alert Rules
 
 | Alert | Severity | Condition |
 |-------|----------|-----------|
@@ -338,9 +309,7 @@ WireGuard provides secure, high-performance VPN access to your home server from 
 
 ---
 
-## ⚙️ Configuration
-
-### Environment Variables
+## Configuration
 
 Copy and customize the example config:
 
@@ -348,11 +317,9 @@ Copy and customize the example config:
 cp config/.env.example config/.env
 ```
 
-Key configuration options:
-
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `SEEDBOX_HOST` | Seedbox SFTP hostname | - |
+| `SEEDBOX_HOST` | Seedbox SFTP hostname | — |
 | `SEEDBOX_PORT` | Seedbox SFTP port | `22` |
 | `GRAFANA_ADMIN_PASSWORD` | Grafana admin password | `admin` |
 | `VPN_SUBNET` | WireGuard VPN subnet | `10.200.200` |
@@ -360,7 +327,7 @@ Key configuration options:
 
 ---
 
-## 🔧 Maintenance
+## Maintenance
 
 ### Health Check
 
@@ -368,13 +335,7 @@ Key configuration options:
 ./install.sh --health
 ```
 
-Checks:
-- ✅ Service status (Jellyfin, rclone, monitoring)
-- ✅ Disk usage across all mounts
-- ✅ VPN connectivity
-- ✅ Network interfaces
-
-### Useful Commands
+### Common Commands
 
 ```bash
 # View monitoring logs
@@ -395,33 +356,26 @@ sudo wg show
 
 ---
 
-## 🛡️ Security Best Practices
+## Security
 
-1. **Change default passwords** - Especially Grafana admin
-2. **Keep services updated** - Regular `docker compose pull`
-3. **Firewall** - Only expose necessary ports
-4. **VPN** - Use VPN for remote access instead of exposing services
-5. **Backups** - Regular backups of Grafana dashboards and configs
+1. **Change default passwords** — especially Grafana admin
+2. **Keep services updated** — regular `docker compose pull`
+3. **Firewall** — only expose necessary ports
+4. **VPN** — use VPN for remote access instead of exposing services
+5. **Backups** — regular backups of Grafana dashboards and configs
 
-### Recommended Firewall Rules
+### Firewall Rules (UFW)
 
 ```bash
-# Allow SSH (if needed)
-ufw allow 22/tcp
-
-# Allow Jellyfin (local network only)
-ufw allow from 192.168.0.0/16 to any port 8096
-
-# Allow WireGuard
-ufw allow 51820/udp
-
-# Deny everything else from internet
+ufw allow 22/tcp                              # SSH
+ufw allow from 192.168.0.0/16 to any port 8096  # Jellyfin (local only)
+ufw allow 51820/udp                           # WireGuard
 ufw default deny incoming
 ```
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -433,27 +387,17 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-## 📝 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- [Jellyfin](https://jellyfin.org/) - Free Software Media System
-- [rclone](https://rclone.org/) - Cloud storage Swiss army knife
-- [Prometheus](https://prometheus.io/) - Monitoring system & TSDB
-- [Grafana](https://grafana.com/) - Observability platform
-- [WireGuard](https://www.wireguard.com/) - Fast, modern VPN
-- [Loki](https://grafana.com/oss/loki/) - Log aggregation system
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
 
 ---
 
-<p align="center">
-  Made with ❤️ for the self-hosted community
-</p>
+## Acknowledgments
 
-<p align="center">
-  <a href="#top">⬆️ Back to Top</a>
-</p>
+- [Jellyfin](https://jellyfin.org/) — Free Software Media System
+- [rclone](https://rclone.org/) — Cloud storage Swiss army knife
+- [Prometheus](https://prometheus.io/) — Monitoring system & TSDB
+- [Grafana](https://grafana.com/) — Observability platform
+- [WireGuard](https://www.wireguard.com/) — Fast, modern VPN
+- [Loki](https://grafana.com/oss/loki/) — Log aggregation system
