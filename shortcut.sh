@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  LEGACY SCRIPT - Use install.sh instead                       ║
+# ║  This file is kept for reference only                         ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+echo "⚠️  This is a legacy script. Please use ./install.sh instead."
+echo "   Run: ./install.sh --help for options"
+exit 1
+
+# Original script below for reference:
 
 set -e
 
@@ -26,7 +36,7 @@ sudo apt install -y rclone openssh-server curl gnupg apt-transport-https softwar
 
 # --- 4. Configure rclone remote ---
 echo "[4/8] Configuring rclone remote for Seedbox..."
-read -p "Seedbox SFTP URL (e.g. swift-025.seedbox.vip): " SEEDBOX_HOST
+read -p "Seedbox SFTP URL (e.g. abcd.seedbox.vip): " SEEDBOX_HOST
 read -p "Seedbox SFTP Port (e.g. 63526): " SEEDBOX_PORT
 read -p "Seedbox Username: " SEEDBOX_USER
 read -s -p "Seedbox Password: " SEEDBOX_PASS

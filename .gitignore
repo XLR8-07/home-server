@@ -1,0 +1,71 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  Git Ignore                                                   ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+# Environment files (contain secrets)
+.env
+config/.env
+
+# VPN keys and client configs (sensitive!)
+vpn/clients/*.conf
+vpn/clients/*.png
+*.key
+*_private.key
+*_public.key
+
+# rclone config (contains passwords)
+rclone.conf
+
+# Monitoring data (can be large)
+monitoring/data/
+monitoring/prometheus/data/
+monitoring/grafana/data/
+monitoring/loki/data/
+
+# Log files
+*.log
+logs/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+.fuse_hidden*
+.nfs*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Backup files
+*.bak
+*.backup
+*.bak.*
+
+# Build artifacts
+dist/
+build/
+
+# Node modules (if any frontend tooling)
+node_modules/
+
+# Python (if any scripts)
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# Docker volumes (if mounted locally)
+docker-volumes/
