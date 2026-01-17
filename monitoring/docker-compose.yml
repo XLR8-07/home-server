@@ -1,0 +1,178 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  Home Server Monitoring Stack                                 ║
+# ║  Prometheus + Grafana + Loki + Promtail                       ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+version: '3.8'
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+  loki_data: {}
+
+services:
+  # ─────────────────────────────────────────────────────────────
+  # Prometheus - Metrics Collection & Storage
+  # ─────────────────────────────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+      - '--web.enable-admin-api'
+    networks:
+      - monitoring
+    labels:
+      - "com.homeserver.service=prometheus"
+      - "com.homeserver.description=Metrics collection and storage"
+
+  # ─────────────────────────────────────────────────────────────
+  # Grafana - Visualization & Dashboards
+  # ─────────────────────────────────────────────────────────────
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=${GRAFANA_ROOT_URL:-http://localhost:3000}
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-piechart-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    networks:
+      - monitoring
+    depends_on:
+      - prometheus
+      - loki
+    labels:
+      - "com.homeserver.service=grafana"
+      - "com.homeserver.description=Visualization and dashboards"
+
+  # ─────────────────────────────────────────────────────────────
+  # Loki - Log Aggregation
+  # ─────────────────────────────────────────────────────────────
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    restart: unless-stopped
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki/loki-config.yml:/etc/loki/local-config.yaml:ro
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - monitoring
+    labels:
+      - "com.homeserver.service=loki"
+      - "com.homeserver.description=Log aggregation"
+
+  # ─────────────────────────────────────────────────────────────
+  # Promtail - Log Collection Agent
+  # ─────────────────────────────────────────────────────────────
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    restart: unless-stopped
+    volumes:
+      - ./promtail/promtail-config.yml:/etc/promtail/config.yml:ro
+      - /var/log:/var/log:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - monitoring
+    depends_on:
+      - loki
+    labels:
+      - "com.homeserver.service=promtail"
+      - "com.homeserver.description=Log collection agent"
+
+  # ─────────────────────────────────────────────────────────────
+  # Node Exporter - System Metrics (CPU, Memory, Disk, Network)
+  # ─────────────────────────────────────────────────────────────
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - monitoring
+    labels:
+      - "com.homeserver.service=node-exporter"
+      - "com.homeserver.description=System metrics exporter"
+
+  # ─────────────────────────────────────────────────────────────
+  # cAdvisor - Container Metrics
+  # ─────────────────────────────────────────────────────────────
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    privileged: true
+    devices:
+      - /dev/kmsg
+    networks:
+      - monitoring
+    labels:
+      - "com.homeserver.service=cadvisor"
+      - "com.homeserver.description=Container metrics"
+
+  # ─────────────────────────────────────────────────────────────
+  # Alertmanager - Alert Routing & Notifications
+  # ─────────────────────────────────────────────────────────────
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    restart: unless-stopped
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+    networks:
+      - monitoring
+    labels:
+      - "com.homeserver.service=alertmanager"
+      - "com.homeserver.description=Alert routing and notifications"

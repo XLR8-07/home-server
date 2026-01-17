@@ -1,0 +1,123 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  Prometheus Alert Rules                                       ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+groups:
+  # ─────────────────────────────────────────────────────────────
+  # System Alerts
+  # ─────────────────────────────────────────────────────────────
+  - name: system_alerts
+    rules:
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is above 80% for more than 5 minutes (current: {{ $value | printf \"%.1f\" }}%)"
+
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Memory usage is above 85% (current: {{ $value | printf \"%.1f\" }}%)"
+
+      - alert: DiskSpaceLow
+        expr: (1 - (node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.rclone"} / node_filesystem_size_bytes{fstype!~"tmpfs|fuse.rclone"})) * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low disk space on {{ $labels.instance }}"
+          description: "Disk {{ $labels.mountpoint }} is {{ $value | printf \"%.1f\" }}% full"
+
+      - alert: DiskSpaceCritical
+        expr: (1 - (node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.rclone"} / node_filesystem_size_bytes{fstype!~"tmpfs|fuse.rclone"})) * 100 > 95
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Critical disk space on {{ $labels.instance }}"
+          description: "Disk {{ $labels.mountpoint }} is {{ $value | printf \"%.1f\" }}% full"
+
+      - alert: HostDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Host {{ $labels.instance }} is down"
+          description: "Target {{ $labels.job }} on {{ $labels.instance }} has been down for more than 1 minute"
+
+  # ─────────────────────────────────────────────────────────────
+  # Service Alerts
+  # ─────────────────────────────────────────────────────────────
+  - name: service_alerts
+    rules:
+      - alert: ContainerDown
+        expr: absent(container_last_seen{name=~".+"}) or (time() - container_last_seen{name=~".+"}) > 60
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container {{ $labels.name }} is down"
+          description: "Container {{ $labels.name }} has been down for more than 1 minute"
+
+      - alert: ContainerHighCPU
+        expr: (sum by (name) (rate(container_cpu_usage_seconds_total{name=~".+"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container {{ $labels.name }} high CPU usage"
+          description: "Container {{ $labels.name }} CPU usage is {{ $value | printf \"%.1f\" }}%"
+
+      - alert: ContainerHighMemory
+        expr: (container_memory_usage_bytes{name=~".+"} / container_spec_memory_limit_bytes{name=~".+"} * 100) > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container {{ $labels.name }} high memory usage"
+          description: "Container {{ $labels.name }} memory usage is {{ $value | printf \"%.1f\" }}%"
+
+  # ─────────────────────────────────────────────────────────────
+  # Network Alerts
+  # ─────────────────────────────────────────────────────────────
+  - name: network_alerts
+    rules:
+      - alert: HighNetworkTraffic
+        expr: sum(rate(node_network_receive_bytes_total{device!~"lo|veth.*"}[5m])) / 1024 / 1024 > 100
+        for: 5m
+        labels:
+          severity: info
+        annotations:
+          summary: "High network traffic on {{ $labels.instance }}"
+          description: "Network receive rate is {{ $value | printf \"%.1f\" }} MB/s"
+
+      - alert: NetworkInterfaceDown
+        expr: node_network_up{device!~"lo|veth.*|docker.*|br-.*"} == 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Network interface {{ $labels.device }} is down"
+          description: "Network interface {{ $labels.device }} on {{ $labels.instance }} is down"
+
+  # ─────────────────────────────────────────────────────────────
+  # Seedbox/rclone Alerts
+  # ─────────────────────────────────────────────────────────────
+  - name: seedbox_alerts
+    rules:
+      - alert: SeedboxMountDown
+        expr: node_filesystem_avail_bytes{mountpoint="/mnt/seedbox"} == 0 or absent(node_filesystem_avail_bytes{mountpoint="/mnt/seedbox"})
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Seedbox mount is unavailable"
+          description: "The seedbox mount at /mnt/seedbox appears to be down"

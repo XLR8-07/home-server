@@ -1,0 +1,86 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  Alertmanager Configuration                                   ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+global:
+  resolve_timeout: 5m
+  # SMTP settings for email notifications (configure as needed)
+  # smtp_smarthost: 'smtp.gmail.com:587'
+  # smtp_from: 'alertmanager@yourdomain.com'
+  # smtp_auth_username: 'your-email@gmail.com'
+  # smtp_auth_password: 'your-app-password'
+
+# Route tree
+route:
+  # Default receiver
+  receiver: 'default-receiver'
+  
+  # Group alerts by alertname and instance
+  group_by: ['alertname', 'instance']
+  
+  # Wait before sending notification for a new group
+  group_wait: 30s
+  
+  # Wait before sending notification about new alerts in existing group
+  group_interval: 5m
+  
+  # Wait before resending notification
+  repeat_interval: 4h
+  
+  # Child routes
+  routes:
+    # Critical alerts - immediate notification
+    - match:
+        severity: critical
+      receiver: 'critical-receiver'
+      group_wait: 10s
+      repeat_interval: 1h
+
+    # Warning alerts
+    - match:
+        severity: warning
+      receiver: 'warning-receiver'
+      group_wait: 1m
+      repeat_interval: 4h
+
+    # Info alerts - less frequent
+    - match:
+        severity: info
+      receiver: 'default-receiver'
+      group_wait: 5m
+      repeat_interval: 12h
+
+# Inhibition rules
+inhibit_rules:
+  # If critical alert is firing, inhibit warnings for same instance
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'instance']
+
+# Receivers
+receivers:
+  - name: 'default-receiver'
+    # Add your notification channels here
+    # webhook_configs:
+    #   - url: 'http://your-webhook-endpoint/alerts'
+
+  - name: 'critical-receiver'
+    # Uncomment and configure for email notifications
+    # email_configs:
+    #   - to: 'admin@yourdomain.com'
+    #     send_resolved: true
+    
+    # Uncomment and configure for Slack notifications
+    # slack_configs:
+    #   - api_url: 'https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'
+    #     channel: '#alerts'
+    #     send_resolved: true
+
+  - name: 'warning-receiver'
+    # Configure as needed
+
+# Templates (optional)
+# templates:
+#   - '/etc/alertmanager/templates/*.tmpl'
